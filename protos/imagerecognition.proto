@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_package = "io.grpc.examples";
+
+package recognition;
+
+service ImageRecognition {
+	rpc PositiveID (stream ImgRequest) returns (PositiveIDInfo) {};	//身份证正面
+	rpc ReverseID (stream ImgRequest) returns (ReverseIDInfo) {}; 	//身份证反面
+}
+// 客户端传的名字
+message ImgRequest{
+	string filename = 1;
+	string filetype = 2;
+	bytes img = 3;//以二进制传方式送文件
+}
+
+message PositiveIDInfo{
+	string name = 1;//姓名
+	string sex = 2;//性别
+	string nation = 3;//民族
+	string age = 4;//出生年月
+	string addr = 5;//住址
+	string IDnumber = 6;//身份证号
+}
+
+message ReverseIDInfo{
+	string organization = 1;//签发机关
+	string effectivedate = 2;//有效期
+}
