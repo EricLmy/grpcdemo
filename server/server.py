@@ -4,6 +4,8 @@ import imagerecognition_pb2_grpc
 import time
 import os
 
+from opencvfun import get_IDnum
+
 _ONE_DAY_IN_SECONDS = 60*60*24
 
 class ImageRecognition(imagerecognition_pb2.BetaImageRecognitionServicer):
@@ -18,10 +20,10 @@ class ImageRecognition(imagerecognition_pb2.BetaImageRecognitionServicer):
 
 		tmp_file = "./image/positiveid" + filetype
 		os.rename("./image/img_file", tmp_file)
-		
+		num = get_IDnum(tmp_file)
 		return imagerecognition_pb2.PositiveIDInfo(name="李梦元",
 			sex="男", nation="汉族", age="19900218", addr="河南省郸城县南丰镇双庙村001号",
-			IDnumber="411256198502452589")
+			IDnumber=num)
 
 	def ReverseID(self, request_iterator, context):
 		count = 0

@@ -18,11 +18,11 @@ def run():
 		stub = imagerecognition_pb2_grpc.ImageRecognitionStub(channel)
 
 		ret = stub.PositiveID(get_img_data("../image/xiaob.jpg"))
-		print(ret.name)
-		print(ret.addr)
-		print('--------------------------------')
-		ret = stub.ReverseID(get_img_data("../image/bei1.jpg"))
-		print(ret)
+		print(ret.IDnumber)
+		# print(ret.addr)
+		# print('--------------------------------')
+		# ret = stub.ReverseID(get_img_data("../image/bei1.jpg"))
+		# print(ret)
 
 
 if __name__ == '__main__':
