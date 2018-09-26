@@ -140,10 +140,19 @@ if __name__ == '__main__':
 			text = pytesseract.image_to_string(resultimg, lang='eng')
 			# text = pytesseract.image_to_string(Image.open("./image/num.jpg"), lang='eng')
 			print(text)
+			continue
 
 		if w > 150 and h > 150:
 			cv2.imwrite("./image/tou.jpg", get_rectimg_from_img(img, box))
-		print(box)
+			continue
+
+		resultimg = get_rectimg_from_img(img, box)
+		text = pytesseract.image_to_string(resultimg, lang='chi_sim')
+		print(text)
+		if not text:
+			# print(box)
+			names = "./image/%d_%d.jpg" % (box[0][0], box[0][1])
+			# cv2.imwrite(names, resultimg)
 		# print(box[1])
 
 	cv2.imshow("img", img)

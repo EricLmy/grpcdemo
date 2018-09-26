@@ -48,4 +48,4 @@ try:
 	while True:
 		time.sleep(_ONE_DAY_IN_SECONDS)
 except KeyboardInterrupt:
-	server.stop()
+	server.stop(0)

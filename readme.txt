@@ -9,5 +9,6 @@ ubuntu18.04  + python3.6
 6. pip3 install pytesseract
 7. sudo apt-get install tesseract-ocr 
 
+/usr/share/tesseract-ocr/4.00/tessdata  : langdata
 
 
