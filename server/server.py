@@ -40,12 +40,13 @@ class ImageRecognition(imagerecognition_pb2.BetaImageRecognitionServicer):
 			effectivedate="19902.15-1621.5")
 
 
-server = imagerecognition_pb2.beta_create_ImageRecognition_server(ImageRecognition())
-server.add_insecure_port('[::]:50051')
-server.start()
+if __name__ == '__main__':
+	server = imagerecognition_pb2.beta_create_ImageRecognition_server(ImageRecognition())
+	server.add_insecure_port('[::]:50051')
+	server.start()
 
-try:
-	while True:
-		time.sleep(_ONE_DAY_IN_SECONDS)
-except KeyboardInterrupt:
-	server.stop(0)
+	try:
+		while True:
+			time.sleep(_ONE_DAY_IN_SECONDS)
+	except KeyboardInterrupt:
+		server.stop(0)
