@@ -10,6 +10,7 @@ else:
 
 import cv2
 import copy
+from matplotlib.patches import Rectangle
 
 class usb1Windows(QWidget):
     def __del__(self):
@@ -31,6 +32,29 @@ class usb1Windows(QWidget):
 
         self.window.pushButton_5.clicked.connect(self.preview_picture)
         self.window.pushButton_4.clicked.connect(self.save_picture)
+
+        self.window.pic_figure.canvas.mpl_connect('button_press_event', self.on_press)
+        self.window.pic_figure.canvas.mpl_connect('button_release_event', self.on_release)
+
+
+    def on_press(self, event):
+        self.on_x0 = event.xdata
+        self.on_y0 = event.ydata
+        if not hasattr(self, "rectload"):
+            self.rectload = Rectangle((0,0), 0, 0, linestyle='solid', fill=False, edgecolor='red')
+            self.window.pic_figaxes.add_patch(self.rectload)
+
+    def on_release(self, event):
+        self.on_x1 = event.xdata
+        self.on_y1 = event.ydata
+        x_start = int(min(self.on_x0, self.on_x1))
+        x_end = int(max(self.on_x0, self.on_x1))
+        y_start = int(min(self.on_y0, self.on_y1))
+        y_end = int(max(self.on_y0, self.on_y1))
+        self.rectload.set_xy((x_start, y_start))
+        self.rectload.set_height(y_end - y_start + 1)
+        self.rectload.set_width(x_end - x_start + 1)
+        self.window.pic_figaxes.figure.canvas.draw()
 
     def save_picture(self):
         if hasattr(self, 'preview_res'):
@@ -136,6 +160,9 @@ class usb1Windows(QWidget):
     def showimg2figaxes2(self, frame):
         b, g, r = cv2.split(frame)
         imgret = cv2.merge([r,g,b])
+        if hasattr(self, "rectload"):
+            self.rectload.remove()
+            del self.rectload
         self.window.pic_figaxes.clear()
         self.window.pic_figaxes.imshow(imgret)
         self.window.pic_figure.canvas.draw()
