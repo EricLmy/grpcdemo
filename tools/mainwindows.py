@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
 
         self.createMyWindows()
 
-        self.setWindowTitle("Dock Widgets")
+        self.setWindowTitle("Tools")
 
         self.readSettings()
 
