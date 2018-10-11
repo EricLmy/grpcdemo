@@ -8,13 +8,17 @@ if __name__ == '__main__':
 else:
     from windows.usb1_ui import Ui_Form
 
+# from identiffun.get_face import Get_Faces
+from identiffun.get_face import get_face_fun1, Get_Faces
+
 import cv2
 import copy
 from matplotlib.patches import Rectangle
 
 class usb1Windows(QWidget):
     def __del__(self):
-        self.camera.release()# 释放资源
+        if hasattr(self, "camera"):
+            self.camera.release()# 释放资源
 
     def init_fun(self):
         self.window = Ui_Form()
@@ -29,6 +33,7 @@ class usb1Windows(QWidget):
         self.window.pushButton.clicked.connect(self.catch_picture)
 
         self.window.comboBox.currentIndexChanged.connect(self.set_width_and_height)
+        self.window.checkBox.clicked.connect(self.get_faces_flag_fun)
 
         self.window.pushButton_5.clicked.connect(self.preview_picture)
         self.window.pushButton_4.clicked.connect(self.save_picture)
@@ -36,6 +41,12 @@ class usb1Windows(QWidget):
         self.window.pic_figure.canvas.mpl_connect('button_press_event', self.on_press)
         self.window.pic_figure.canvas.mpl_connect('button_release_event', self.on_release)
 
+        self.getface_flag = False
+
+        fm = open("./identiffun/faces.conf", 'r')
+        self.names = fm.read().split(";")
+        fm.close()
+        self.my_get_face = Get_Faces(self.names)
 
     def on_press(self, event):
         self.on_x0 = event.xdata
@@ -65,6 +76,11 @@ class usb1Windows(QWidget):
             else:
                 return # no pic
         cv2.imwrite("./image/save.jpg", tmp_save_picture)
+        if hasattr(self, "rectload"):
+            x, y = self.rectload.get_xy()
+            w = self.rectload.get_width()
+            h = self.rectload.get_height()
+            cv2.imwrite("./image/ret.jpg", tmp_save_picture[y: y+h, x:x+w])        
         # filename, filetype = QFileDialog.getSaveFileName(self, "save", "jpg Files(*.jpg)::All Files(*)")
         # if filename:
         #     cv2.imwrite(filename, tmp_save_picture)
@@ -77,6 +93,12 @@ class usb1Windows(QWidget):
             self.preview_res = cv2.resize(self.raw_frame, (width, height), interpolation=cv2.INTER_CUBIC)
             self.showimg2figaxes2(self.preview_res)
 
+    def get_faces_flag_fun(self):
+        if self.window.checkBox.isChecked():
+            self.getface_flag = True
+        else:
+            self.getface_flag = False
+        print(self.getface_flag)
 
     def set_width_and_height(self):
         # print(self.window.comboBox.currentText())
@@ -90,6 +112,8 @@ class usb1Windows(QWidget):
             ret, frame = self.camera.read()
             if ret:
                 self.raw_frame = copy.deepcopy(frame)
+                if hasattr(self, 'preview_res'):
+                    del self.preview_res
                 self.showimg2figaxes2(frame)
             else:
                 pass # get faild
@@ -168,11 +192,15 @@ class usb1Windows(QWidget):
         self.window.pic_figure.canvas.draw()
 
     def showimg2figaxes(self,img):
-        b, g, r = cv2.split(img)
+        # tmp_img = get_face_fun1(img, self.names)
+        if self.getface_flag:
+            tmp_img = self.my_get_face.get_face_fun(img)
+        else:
+            tmp_img = img
+        b, g, r = cv2.split(tmp_img)
         imgret = cv2.merge([r,g,b])# 这个就是前面说书的，OpenCV和matplotlib显示不一样，需要转换
         self.window.video_figaxes.clear()
         self.window.video_figaxes.imshow(imgret)
-        # self.window.video_figaxes.autoscale_view()
         self.window.video_figure.canvas.draw()
 
 
