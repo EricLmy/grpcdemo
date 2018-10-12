@@ -98,7 +98,7 @@ class usb1Windows(QWidget):
             self.getface_flag = True
         else:
             self.getface_flag = False
-        print(self.getface_flag)
+        # print(self.getface_flag)
 
     def set_width_and_height(self):
         # print(self.window.comboBox.currentText())
@@ -194,6 +194,7 @@ class usb1Windows(QWidget):
     def showimg2figaxes(self,img):
         # tmp_img = get_face_fun1(img, self.names)
         if self.getface_flag:
+            # print(img.shape)
             tmp_img = self.my_get_face.get_face_fun(img)
         else:
             tmp_img = img

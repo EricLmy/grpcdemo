@@ -6,6 +6,41 @@ import os
 fileconf = "/home/meng/gRPC/demo/tools/identiffun/faces.conf"
 filedata = "/home/meng/gRPC/demo/tools/identiffun/faces/"
 filexml = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_frontalface_default.xml"
+filexml_z1 = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_frontalface_alt.xml"
+filexml_z2 = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_frontalface_alt2.xml"
+filexmlzc = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_profileface.xml"
+
+filexml_cat = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_frontalcatface.xml" # cat fance
+filexml1 = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_frontalface_alt_tree.xml"
+
+class GenerateClass(object):
+	"""docstring for GenerateClass"""
+	def __init__(self):
+		super(GenerateClass, self).__init__()
+
+		self.face_cascade = cv2.CascadeClassifier(filexml_z1)
+		
+	def frontal_face(self):
+		self.face_cascade = cv2.CascadeClassifier(filexml_z1)
+
+	def profile_face(self):
+		self.face_cascade = cv2.CascadeClassifier(filexmlzc)
+
+	def get_gray_data(self):
+		if hasattr(self, "ret_f"):
+			return self.ret_f
+
+	def get_face_fun(self, img):
+		self.gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+		self.faces = self.face_cascade.detectMultiScale(self.gray, 1.3, 5)
+		for (x,y,w,h) in self.faces:
+			ret_img = cv2.rectangle(img, (x,y), (x+w,y+h), (255,0,0), 1)
+			self.ret_f = cv2.resize(self.gray[y:y+h, x:x+w], (200, 200))
+
+		return img
+		# return img, ret_f
+
+
 def generate():
 	face_cascade = cv2.CascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')
 	eye_cascade = cv2.CascadeClassifier('haarcascades/haarcascade_eye.xml')
@@ -63,11 +98,14 @@ class Get_Faces(object):
 		# self.model = cv2.face.FisherFaceRecognizer_create()#cv2.face.createFisherFaceRecognizer()
 		# self.model = cv2.face.LBPHFaceRecognizer_create()#cv2.face.createLBPHFaceRecognizer()
 		self.model.train(np.asarray(self.X), np.asarray(self.y))
-		self.face_cascade = cv2.CascadeClassifier(filexml)
+		self.face_cascade = cv2.CascadeClassifier(filexml_z1)
+		self.face_cascade1 = cv2.CascadeClassifier(filexmlzc)
 		# print(self.names)
 
-	def get_face_fun(self, img):
+	def get_face_fun(self, img):#正脸
 		faces = self.face_cascade.detectMultiScale(img, 1.3, 5)
+		faces1 = self.face_cascade1.detectMultiScale(img, 1.3, 5)
+		faces2 = self.face_cascade1.detectMultiScale(cv2.flip(img, 1, dst=None), 1.3, 5)
 		for (x,y,w,h) in faces:
 			img = cv2.rectangle(img, (x,y), (x+w,y+h), (255,0,0), 2)
 			gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -75,11 +113,41 @@ class Get_Faces(object):
 			try:
 				roi = cv2.resize(roi, (200,200), interpolation=cv2.INTER_LINEAR)
 				params = self.model.predict(roi)
-				# print("Label:%s, Confidence:%.2f" % (params[0], params[1]))
+				# print("Label:%s, Confidence:%.2f" % (params[0], params[1]))# params[1]:ke xin du
+				# print(self.names1[params[0]])
 				cv2.putText(img, self.names1[params[0]], (x, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, 255, 2)
 			except:
 				continue
+
+		for (x,y,w,h) in faces1:# 左侧脸
+			img = cv2.rectangle(img, (x,y), (x+w,y+h), (255,0,0), 2)
+			gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+			roi = gray[x:x+w, y:y+h]
+			try:
+				roi = cv2.resize(roi, (200,200), interpolation=cv2.INTER_LINEAR)
+				params = self.model.predict(roi)
+				# print("Label:%s, Confidence:%.2f" % (params[0], params[1]))# params[1]:ke xin du
+				# print(self.names1[params[0]])
+				cv2.putText(img, self.names1[params[0]], (x, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, 255, 2)
+			except:
+				continue
+
+		for (x,y,w,h) in faces2: # 右侧脸
+			x = img.shape[1] - x - w
+			img = cv2.rectangle(img, (x,y), (x+w,y+h), (255,0,0), 2)
+			gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+			roi = gray[x:x+w, y:y+h]
+			try:
+				roi = cv2.resize(roi, (200,200), interpolation=cv2.INTER_LINEAR)
+				params = self.model.predict(roi)
+				# print("Label:%s, Confidence:%.2f" % (params[0], params[1]))# params[1]:ke xin du
+				# print(self.names1[params[0]])
+				cv2.putText(img, self.names1[params[0]], (x, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, 255, 2)
+			except:
+				continue
+
 		return img
+
 
 def get_face_fun1(img, names):
 	# fm = open(fileconf, 'r')

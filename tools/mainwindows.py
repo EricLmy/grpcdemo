@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (QAction, QApplication, QDialog, QDockWidget,QStacke
 
 # import dockwidgets_rc
 from windows.demo1_fun import demo1Windows
-from windows.demo2_fun import demo2Windows
+from windows.getturndata_fun import getDataWindows
 from windows.usb1_fun import usb1Windows
 
 class MainWindow(QMainWindow):
@@ -39,9 +39,9 @@ class MainWindow(QMainWindow):
         self.usb1W.init_fun()
         self.stackedWidget.addWidget(self.usb1W)
 
-        self.demo2W = demo2Windows()
-        self.demo2W.init_fun()
-        self.stackedWidget.addWidget(self.demo2W)
+        self.getDataW = getDataWindows()
+        self.getDataW.init_fun()
+        self.stackedWidget.addWidget(self.getDataW)
 
         self.demo1W = demo1Windows()
         self.demo1W.init_fun()
@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
     def demo1w(self):
         self.stackedWidget.setCurrentIndex(2)
 
-    def demo2w(self):
+    def getDataW(self):
         self.stackedWidget.setCurrentIndex(1)
 
     def about(self):
@@ -68,8 +68,8 @@ class MainWindow(QMainWindow):
         self.usb1Act = QAction(QIcon('./image/xiaob.jpg'), "usb", self,
                 statusTip="usb windows", triggered=self.usb1w)
 
-        self.demo2Act = QAction(QIcon('./image/xiaob.jpg'), "demo2", self,
-                statusTip="demo2 windows", triggered=self.demo2w)
+        self.getDataAct = QAction(QIcon('./image/xiaob.jpg'), "demo2", self,
+                statusTip="get data windows", triggered=self.getDataW)
 
         self.quitAct = QAction("&Quit", self, shortcut="Ctrl+Q",
                 statusTip="Quit the application", triggered=self.close)
@@ -85,7 +85,7 @@ class MainWindow(QMainWindow):
     def createMenus(self):
         self.fileMenu = self.menuBar().addMenu("摄像头操作")
         self.fileMenu.addAction(self.usb1Act)
-        self.fileMenu.addAction(self.demo2Act)
+        self.fileMenu.addAction(self.getDataAct)
         # self.fileMenu.addSeparator()
         # self.fileMenu.addAction(self.quitAct)
 
@@ -106,7 +106,7 @@ class MainWindow(QMainWindow):
     def createToolBars(self):
         self.fileToolBar = self.addToolBar("File")
         self.fileToolBar.addAction(self.usb1Act)
-        self.fileToolBar.addAction(self.demo2Act)
+        self.fileToolBar.addAction(self.getDataAct)
 
         self.editToolBar = self.addToolBar("Edit")
         # self.editToolBar.addAction(self.undoAct)
