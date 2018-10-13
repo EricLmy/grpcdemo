@@ -76,9 +76,9 @@ class getDataWindows(QWidget):
             self.my_get_face.profile_face() # you ce lian
             face_img = self.my_get_face.get_gray_data()
             self.face_data[button.objectName()] = face_img
-            cv2.imwrite("./image/btn_pg.jpg", cv2.resize(cv2.flip(face_img.copy(), 1, dst=None), (101, 101)))
+            cv2.imwrite("./image/btn_pg.jpg", cv2.resize(cv2.flip(face_img.copy(), 1, dst=None), (71, 71)))
 
-            button.setIconSize(QSize(101,101))
+            button.setIconSize(QSize(71,71))
             button.setStyleSheet("background-image:url(./image/btn_pg.jpg);")
 
     def frontal_face_zc_fun(self):
@@ -88,9 +88,9 @@ class getDataWindows(QWidget):
             self.my_get_face.profile_face() # zuo ce lian
             face_img = self.my_get_face.get_gray_data()
             self.face_data[button.objectName()] = face_img
-            cv2.imwrite("./image/btn_pg.jpg", cv2.resize(face_img.copy(), (101, 101)))
+            cv2.imwrite("./image/btn_pg.jpg", cv2.resize(face_img.copy(), (71, 71)))
 
-            button.setIconSize(QSize(101,101))
+            button.setIconSize(QSize(71,71))
             button.setStyleSheet("background-image:url(./image/btn_pg.jpg);")
 
     def frontal_face_z_fun(self):
@@ -100,9 +100,9 @@ class getDataWindows(QWidget):
             self.my_get_face.frontal_face() # zheng lian
             face_img = self.my_get_face.get_gray_data()
             self.face_data[button.objectName()] = face_img
-            cv2.imwrite("./image/btn_pg.jpg", cv2.resize(face_img.copy(), (101, 101)))
+            cv2.imwrite("./image/btn_pg.jpg", cv2.resize(face_img.copy(), (71, 71)))
 
-            button.setIconSize(QSize(101,101))
+            button.setIconSize(QSize(71,71))
             button.setStyleSheet("background-image:url(./image/btn_pg.jpg);")
 
     def saveBtn_fun(self):

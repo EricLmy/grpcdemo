@@ -3,15 +3,15 @@ import numpy as np
 import sys 
 import os
 
-fileconf = "/home/meng/gRPC/demo/tools/identiffun/faces.conf"
-filedata = "/home/meng/gRPC/demo/tools/identiffun/faces/"
-filexml = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_frontalface_default.xml"
-filexml_z1 = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_frontalface_alt.xml"
-filexml_z2 = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_frontalface_alt2.xml"
-filexmlzc = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_profileface.xml"
+fileconf = "/home/lmy/gRPC/grpcdemo/tools/identiffun/faces.conf"
+filedata = "/home/lmy/gRPC/grpcdemo/tools/identiffun/faces/"
+filexml = "/home/lmy/gRPC/grpcdemo/tools/identiffun/haarcascades/haarcascade_frontalface_default.xml"
+filexml_z1 = "/home/lmy/gRPC/grpcdemo/tools/identiffun/haarcascades/haarcascade_frontalface_alt.xml"
+filexml_z2 = "/home/lmy/gRPC/grpcdemo/tools/identiffun/haarcascades/haarcascade_frontalface_alt2.xml"
+filexmlzc = "/home/lmy/gRPC/grpcdemo/tools/identiffun/haarcascades/haarcascade_profileface.xml"
 
-filexml_cat = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_frontalcatface.xml" # cat fance
-filexml1 = "/home/meng/gRPC/demo/tools/identiffun/haarcascades/haarcascade_frontalface_alt_tree.xml"
+filexml_cat = "/home/lmy/gRPC/grpcdemo/tools/identiffun/haarcascades/haarcascade_frontalcatface.xml" # cat fance
+filexml1 = "/home/lmy/gRPC/grpcdemo/tools/identiffun/haarcascades/haarcascade_frontalface_alt_tree.xml"
 
 class GenerateClass(object):
 	"""docstring for GenerateClass"""
@@ -184,7 +184,7 @@ def get_face_fun1(img, names):
 def face_rec():
 	names = ['Lmy','Jay','Sara']
 
-	[X,y] = read_images("/home/meng/gRPC/demo/tools/identiffun/faces/")
+	[X,y] = read_images("/home/lmy/gRPC/grpcdemo/tools/identiffun/faces/")
 	# [X,y] = read_images(sys.argv[1])
 	# print(sys.argv[1])
 	print(y)
