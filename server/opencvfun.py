@@ -7,7 +7,7 @@ def process_img(img):
 	kernel = np.ones((7,7), np.uint8)
 	img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # 
 	img = cv2.GaussianBlur(img, (3,3), 0)
-	retval, img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
+	retval, img = cv2.threshold(img, 185, 255, cv2.THRESH_BINARY_INV)
 	img = cv2.dilate(img, kernel, iterations=1)
 	img = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
 	# retval, img = cv2.threshold(img, 80, 255, cv2.THRESH_BINARY)
@@ -116,8 +116,8 @@ if __name__ == '__main__':
 		
 	# img = cv2.imread("./image/reverseid.jpg")
 	# img = cv2.imread("./image/dd.jpg")
-	img = cv2.imread("./image/ret.jpg")
-	# img = cv2.imread("./image/positiveid.jpg")
+	# img = cv2.imread("./image/ret.jpg")
+	img = cv2.imread("./image/positiveid.jpg")
 	# img = cv2.imread("./image/mez1.jpg")
 	# img = rotate_img(img, 90)
 	# img = cropwh_img(img, 475, 297)

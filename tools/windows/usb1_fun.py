@@ -9,7 +9,7 @@ else:
     from windows.usb1_ui import Ui_Form
 
 # from identiffun.get_face import Get_Faces
-from identiffun.get_face import get_face_fun1, Get_Faces
+from identiffun.get_face import Get_Faces
 
 import cv2
 import copy
@@ -179,7 +179,7 @@ class usb1Windows(QWidget):
         else:
             self.window.doubleSpinBox_5.setValue(saturation) # inf
     
-        self.timer.start(41) #设置计时间隔并启动
+        self.timer.start(101) #设置计时间隔并启动
 
     def showimg2figaxes2(self, frame):
         b, g, r = cv2.split(frame)
@@ -192,9 +192,7 @@ class usb1Windows(QWidget):
         self.window.pic_figure.canvas.draw()
 
     def showimg2figaxes(self,img):
-        # tmp_img = get_face_fun1(img, self.names)
         if self.getface_flag:
-            # print(img.shape)
             tmp_img = self.my_get_face.get_face_fun(img)
         else:
             tmp_img = img
