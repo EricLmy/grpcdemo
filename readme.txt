@@ -16,7 +16,7 @@ ubuntu18.04  + python3.6
 7. sudo apt-get install tesseract-ocr 
 
 /usr/share/tesseract-ocr/4.00/tessdata  : langdata
-
+https://github.com/tesseract-ocr/tessdata
 pyQt5:
 sudo apt-get install python3-pyqt5
 sudo apt-get install pyqt5-dev-tools
